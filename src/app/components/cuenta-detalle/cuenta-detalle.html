@@ -1,0 +1,130 @@
+<div class="cuenta-page">
+  <!-- HEADER -->
+  <div class="page-header">
+    <button class="back-btn" (click)="volver()">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Volver a mi perfil
+    </button>
+  </div>
+
+  <!-- MENSAJE DE BIENVENIDA -->
+  <div class="welcome-banner">
+    <div class="welcome-content">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div>
+        <h2>{{ datosCuenta.mensaje }}</h2>
+        <p class="account-holder">
+          <span class="label">Titular:</span> 
+          <strong>{{ datosCuenta.name }}</strong>
+        </p>
+        <p class="account-number">
+          <span class="label">Número de cuenta:</span> 
+          <strong>{{ datosCuenta.numberAccount }}</strong>
+        </p>
+        <p class="card-number" *ngIf="datosCuenta.numberDebitCard">
+          <span class="label">Tarjeta débito:</span> 
+          <strong>**** **** **** {{ datosCuenta.numberDebitCard }}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUMEN DE CUENTA -->
+  <div class="account-summary">
+    <div class="summary-card balance-card">
+      <div class="card-icon">💰</div>
+      <div class="card-details">
+        <p class="card-label">Saldo Disponible</p>
+        <h3 class="card-value">{{ formatearMonto(saldo) }}</h3>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">📊</div>
+      <div class="card-details">
+        <p class="card-label">Tipo de Cuenta</p>
+        <h3 class="card-value">{{ obtenerTipoCuenta() }}</h3>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">💳</div>
+      <div class="card-details">
+        <p class="card-label">Tarjeta Débito</p>
+        <h3 class="card-value">{{ datosCuenta.includeDebitCard ? 'Activa' : 'No solicitada' }}</h3>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-icon">📈</div>
+      <div class="card-details">
+        <p class="card-label">Interés E.A.</p>
+        <h3 class="card-value">4.5%</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCIONES RÁPIDAS -->
+  <div class="quick-actions">
+    <button class="action-btn">Transferir</button>
+    <button class="action-btn">Consignar</button>
+    <button class="action-btn">Retirar</button>
+    <button class="action-btn">Extracto</button>
+  </div>
+
+  <!-- TRANSACCIONES -->
+  <div class="transactions-section">
+    <div class="section-header">
+      <h2>Transacciones Recientes</h2>
+      <button class="filter-btn">Filtrar</button>
+    </div>
+
+    <!-- LOADING -->
+    <div *ngIf="cargando" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando transacciones...</p>
+    </div>
+
+    <!-- SIN TRANSACCIONES -->
+    <div *ngIf="!cargando && transacciones.length === 0" class="no-transactions">
+      <div class="empty-icon">📭</div>
+      <p>No hay transacciones registradas</p>
+      <small>Esta cuenta acaba de ser creada. Las transacciones aparecerán aquí.</small>
+    </div>
+
+    <!-- LISTA DE TRANSACCIONES -->
+    <div *ngIf="!cargando && transacciones.length > 0" class="transactions-list">
+      <div *ngFor="let trans of transacciones" 
+           class="transaction-item" 
+           [class.ingreso]="trans.tipo === 'INGRESO'" 
+           [class.egreso]="trans.tipo === 'EGRESO'">
+        
+        <div class="trans-icon">
+          <svg *ngIf="trans.tipo === 'INGRESO'" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5V19M5 12L12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg *ngIf="trans.tipo === 'EGRESO'" viewBox="0 0 24 24" fill="none">
+            <path d="M12 19V5M5 12L12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="trans-details">
+          <h4>{{ trans.descripcion }}</h4>
+          <p class="trans-date">{{ trans.fecha | date: 'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+
+        <div class="trans-amount" 
+             [class.positivo]="trans.tipo === 'INGRESO'" 
+             [class.negativo]="trans.tipo === 'EGRESO'">
+          {{ trans.tipo === 'INGRESO' ? '+' : '-' }}{{ formatearMonto(trans.monto) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

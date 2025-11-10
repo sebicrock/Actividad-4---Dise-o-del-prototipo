@@ -1,0 +1,333 @@
+<div class="form-page">
+  <div class="page-header">
+    <button class="back-btn" onclick="history.back()">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Volver
+    </button>
+    <h1>Crear Ahorro Programado</h1>
+    <p class="subtitle">Programa tus ahorros automáticamente y alcanza tus metas financieras</p>
+  </div>
+
+  <div class="form-container">
+    <!-- Banner de Beneficios -->
+    <div class="info-banner">
+      <div class="info-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.8 10.9C9.53 10.31 8.8 9.7 8.8 8.75C8.8 7.66 9.81 6.9 11.5 6.9C12.91 6.9 13.5 7.5 13.6 8.35H15.45C15.34 6.85 14.4 5.55 12.5 5.16V3.5H10.5V5.15C8.63 5.52 7.2 6.71 7.2 8.79C7.2 11.15 8.9 12.14 11.7 12.82C14.2 13.43 14.8 14.16 14.8 15.09C14.8 15.79 14.39 16.9 11.5 16.9C9.44 16.9 8.63 16.18 8.5 15.35H6.55C6.69 17.19 8.08 18.42 10.5 18.83V20.5H12.5V18.84C14.38 18.53 15.8 17.45 15.8 15.09C15.8 12.2 13.87 11.49 11.8 10.9Z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div>
+        <h3>Ventajas del Ahorro Programado</h3>
+        <ul>
+          <li>✓ Intereses desde el 6.5% E.A.</li>
+          <li>✓ Débito automático mensual</li>
+          <li>✓ Sin costos de administración</li>
+          <li>✓ Retiro al cumplir tu meta</li>
+        </ul>
+      </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #savingsForm="ngForm">
+      <!-- Meta de Ahorro -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7V10H22V7L12 2Z" fill="currentColor"/>
+            <path d="M4 11H7V20H4V11Z" fill="currentColor"/>
+            <path d="M10 11H14V20H10V11Z" fill="currentColor"/>
+            <path d="M17 11H20V20H17V11Z" fill="currentColor"/>
+            <path d="M2 20H22V22H2V20Z" fill="currentColor"/>
+          </svg>
+          ¿Para qué estás ahorrando?
+        </h2>
+
+        <div class="goal-cards">
+          <label class="goal-card">
+            <input type="radio" name="goalType" value="vivienda" [(ngModel)]="savingsData.goalType" required>
+            <div class="goal-content">
+              <div class="goal-icon">🏠</div>
+              <h3>Vivienda</h3>
+              <p>Casa, apartamento o cuota inicial</p>
+            </div>
+          </label>
+
+          <label class="goal-card">
+            <input type="radio" name="goalType" value="vehiculo" [(ngModel)]="savingsData.goalType">
+            <div class="goal-content">
+              <div class="goal-icon">🚗</div>
+              <h3>Vehículo</h3>
+              <p>Auto, moto o cuota inicial</p>
+            </div>
+          </label>
+
+          <label class="goal-card">
+            <input type="radio" name="goalType" value="vacaciones" [(ngModel)]="savingsData.goalType">
+            <div class="goal-content">
+              <div class="goal-icon">✈️</div>
+              <h3>Vacaciones</h3>
+              <p>Viaje de tus sueños</p>
+            </div>
+          </label>
+
+          <label class="goal-card">
+            <input type="radio" name="goalType" value="educacion" [(ngModel)]="savingsData.goalType">
+            <div class="goal-content">
+              <div class="goal-icon">🎓</div>
+              <h3>Educación</h3>
+              <p>Estudios, cursos, maestría</p>
+            </div>
+          </label>
+
+          <label class="goal-card">
+            <input type="radio" name="goalType" value="emergencia" [(ngModel)]="savingsData.goalType">
+            <div class="goal-content">
+              <div class="goal-icon">🛡️</div>
+              <h3>Fondo de Emergencia</h3>
+              <p>Para imprevistos</p>
+            </div>
+          </label>
+
+          <label class="goal-card">
+            <input type="radio" name="goalType" value="otro" [(ngModel)]="savingsData.goalType">
+            <div class="goal-content">
+              <div class="goal-icon">💰</div>
+              <h3>Otro</h3>
+              <p>Meta personalizada</p>
+            </div>
+          </label>
+        </div>
+
+        <div class="form-group full-width" *ngIf="savingsData.goalType === 'otro'">
+          <label for="customGoal">Describe tu meta de ahorro</label>
+          <input 
+            type="text" 
+            id="customGoal" 
+            name="customGoal"
+            [(ngModel)]="savingsData.customGoal"
+            placeholder="Ej: Comprar equipo de fotografía"
+            maxlength="50"
+          >
+        </div>
+      </div>
+
+      <!-- Detalles del Ahorro -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13.41 18.09V20H10.74V18.07C9.03 17.71 7.58 16.61 7.5 14.67H9.75C9.82 15.74 10.59 16.42 12.07 16.42C13.71 16.42 14.19 15.56 14.19 14.97C14.19 14.22 13.71 13.54 11.94 13.12C9.61 12.59 7.5 11.79 7.5 9.5C7.5 7.73 8.86 6.42 10.74 6.05V4H13.41V6.07C15.35 6.42 16.37 7.74 16.43 9.5H14.19C14.15 8.36 13.46 7.73 12.07 7.73C10.59 7.73 9.95 8.38 9.95 9.23C9.95 9.93 10.43 10.5 12.25 10.95C14.07 11.4 16.64 12.03 16.64 14.97C16.63 16.83 15.38 17.93 13.41 18.09Z" fill="currentColor"/>
+          </svg>
+          Monto y Plazo
+        </h2>
+
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label for="targetAmount">¿Cuánto quieres ahorrar? (Meta total)</label>
+            <div class="input-with-icon">
+              <span class="currency">$</span>
+              <input 
+                type="number" 
+                id="targetAmount" 
+                name="targetAmount"
+                [(ngModel)]="savingsData.targetAmount"
+                placeholder="5,000,000"
+                min="500000"
+                step="100000"
+                required
+              >
+            </div>
+            <small class="helper-text">Monto mínimo: $500,000 COP</small>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="termMonths">Plazo (meses)</label>
+            <select 
+              id="termMonths" 
+              name="termMonths"
+              [(ngModel)]="savingsData.termMonths"
+              required
+            >
+              <option value="">Selecciona el plazo</option>
+              <option value="6">6 meses</option>
+              <option value="12">12 meses</option>
+              <option value="18">18 meses</option>
+              <option value="24">24 meses</option>
+              <option value="36">36 meses</option>
+              <option value="48">48 meses</option>
+              <option value="60">60 meses</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="monthlyAmount">Ahorro mensual calculado</label>
+            <div class="input-with-icon">
+              <span class="currency">$</span>
+              <input 
+                type="text" 
+                id="monthlyAmount" 
+                name="monthlyAmount"
+                [value]="monthlyAmount | number:'1.0-0'"
+                readonly
+                class="readonly-input"
+              >
+            </div>
+            <small class="helper-text">Débito automático mensual</small>
+          </div>
+        </div>
+
+        <!-- Calculadora Visual -->
+        <div class="savings-calculator" *ngIf="savingsData.targetAmount && savingsData.termMonths">
+          <div class="calculator-header">
+            <h4>Resumen de tu ahorro</h4>
+          </div>
+          <div class="calculator-body">
+            <div class="calc-item">
+              <span class="calc-label">Meta total:</span>
+              <span class="calc-value">{{ savingsData.targetAmount | currency:'$':'symbol':'1.0-0' }}</span>
+            </div>
+            <div class="calc-item">
+              <span class="calc-label">Ahorro mensual:</span>
+              <span class="calc-value highlight">{{ monthlyAmount | currency:'$':'symbol':'1.0-0' }}</span>
+            </div>
+            <div class="calc-item">
+              <span class="calc-label">Plazo:</span>
+              <span class="calc-value">{{ savingsData.termMonths }} meses</span>
+            </div>
+            <div class="calc-item">
+              <span class="calc-label">Intereses estimados:</span>
+              <span class="calc-value success">{{ estimatedInterest | currency:'$':'symbol':'1.0-0' }}</span>
+            </div>
+            <div class="calc-divider"></div>
+            <div class="calc-item total">
+              <span class="calc-label">Total al finalizar:</span>
+              <span class="calc-value">{{ totalWithInterest | currency:'$':'symbol':'1.0-0' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configuración de Débito -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11H7V13H9V11ZM13 11H11V13H13V11ZM17 11H15V13H17V11ZM19 4H18V2H16V4H8V2H6V4H5C3.89 4 3.01 4.9 3.01 6L3 20C3 21.1 3.89 22 5 22H19C20.1 22 21 21.1 21 20V6C21 4.9 20.1 4 19 4ZM19 20H5V9H19V20Z" fill="currentColor"/>
+          </svg>
+          Configuración de Débito Automático
+        </h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="sourceAccount">Cuenta de origen</label>
+            <select 
+              id="sourceAccount" 
+              name="sourceAccount"
+              [(ngModel)]="savingsData.sourceAccount"
+              required
+            >
+              <option value="">Selecciona una cuenta</option>
+              <option value="cuenta1">Cuenta de Ahorros **** 1234 - $2,500,000</option>
+              <option value="cuenta2">Cuenta Corriente **** 5678 - $5,800,000</option>
+            </select>
+            <small class="helper-text">El débito se realizará desde esta cuenta</small>
+          </div>
+
+          <div class="form-group">
+            <label for="debitDay">Día de débito mensual</label>
+            <select 
+              id="debitDay" 
+              name="debitDay"
+              [(ngModel)]="savingsData.debitDay"
+              required
+            >
+              <option value="">Selecciona el día</option>
+              <option value="1">Día 1 de cada mes</option>
+              <option value="5">Día 5 de cada mes</option>
+              <option value="10">Día 10 de cada mes</option>
+              <option value="15">Día 15 de cada mes</option>
+              <option value="20">Día 20 de cada mes</option>
+              <option value="25">Día 25 de cada mes</option>
+            </select>
+            <small class="helper-text">Recomendado: después de tu fecha de pago</small>
+          </div>
+        </div>
+
+        <!-- Recordatorio -->
+        <div class="reminder-box">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="currentColor"/>
+          </svg>
+          <p><strong>Importante:</strong> Asegúrate de tener fondos suficientes en tu cuenta el día del débito para evitar cargos por devolución.</p>
+        </div>
+      </div>
+
+      <!-- Opciones Adicionales -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.14 12.94C19.18 12.64 19.2 12.33 19.2 12C19.2 11.68 19.18 11.36 19.13 11.06L21.16 9.48C21.34 9.34 21.39 9.07 21.28 8.87L19.36 5.55C19.24 5.33 18.99 5.26 18.77 5.33L16.38 6.29C15.88 5.91 15.35 5.59 14.76 5.35L14.4 2.81C14.36 2.57 14.16 2.4 13.92 2.4H10.08C9.84 2.4 9.65 2.57 9.61 2.81L9.25 5.35C8.66 5.59 8.12 5.92 7.63 6.29L5.24 5.33C5.02 5.25 4.77 5.33 4.65 5.55L2.74 8.87C2.62 9.08 2.66 9.34 2.86 9.48L4.89 11.06C4.84 11.36 4.8 11.69 4.8 12C4.8 12.31 4.82 12.64 4.87 12.94L2.84 14.52C2.66 14.66 2.61 14.93 2.72 15.13L4.64 18.45C4.76 18.67 5.01 18.74 5.23 18.67L7.62 17.71C8.12 18.09 8.65 18.41 9.24 18.65L9.6 21.19C9.65 21.43 9.84 21.6 10.08 21.6H13.92C14.16 21.6 14.36 21.43 14.39 21.19L14.75 18.65C15.34 18.41 15.88 18.09 16.37 17.71L18.76 18.67C18.98 18.75 19.23 18.67 19.35 18.45L21.27 15.13C21.39 14.91 21.34 14.66 21.15 14.52L19.14 12.94Z" fill="currentColor"/>
+          </svg>
+          Opciones Adicionales
+        </h2>
+
+        <div class="checkbox-group">
+          <label class="checkbox-card">
+            <input type="checkbox" name="allowExtraDeposits" [(ngModel)]="savingsData.allowExtraDeposits">
+            <div class="checkbox-content">
+              <div class="checkbox-icon">➕</div>
+              <div>
+                <h4>Permitir depósitos adicionales</h4>
+                <p>Podrás hacer aportes extra cuando quieras para alcanzar tu meta más rápido</p>
+              </div>
+            </div>
+          </label>
+
+          <label class="checkbox-card">
+            <input type="checkbox" name="autoRenew" [(ngModel)]="savingsData.autoRenew">
+            <div class="checkbox-content">
+              <div class="checkbox-icon">🔄</div>
+              <div>
+                <h4>Renovación automática</h4>
+                <p>Al cumplir la meta, iniciar automáticamente un nuevo ahorro con la misma configuración</p>
+              </div>
+            </div>
+          </label>
+
+          <label class="checkbox-card">
+            <input type="checkbox" name="notifications" [(ngModel)]="savingsData.notifications" checked>
+            <div class="checkbox-content">
+              <div class="checkbox-icon">🔔</div>
+              <div>
+                <h4>Notificaciones de progreso</h4>
+                <p>Recibe recordatorios mensuales del avance de tu meta</p>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Términos y Condiciones -->
+      <div class="terms-section">
+        <label class="terms-checkbox">
+          <input type="checkbox" name="terms" required>
+          <span>Acepto los <a href="#">términos y condiciones</a> del ahorro programado y autorizo el débito automático mensual de mi cuenta</span>
+        </label>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" onclick="history.back()">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="!savingsForm.valid">
+          <span>Crear Ahorro Programado</span>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+    </form>
+  </div>
+</div>
